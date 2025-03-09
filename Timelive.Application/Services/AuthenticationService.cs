@@ -61,7 +61,7 @@ public class AuthenticationService : IAuthenticationService
         _userRepository.Update(user);
         await _userRepository.SaveChangesAsync();
 
-        return GenerateJwtToken(user.Id, user.Email, user.Role);
+        return GenerateJwtToken(user.Id, user.Email!, user.Role!);
     }
 
     public async Task<string> UpdateRefreshTokenAsync(string email)
