@@ -40,8 +40,14 @@ namespace Timelive.API.Controllers
         [HttpPost("signup")]
         public async Task<IActionResult> Signup([FromBody] RegisterDto registerDto)
         {
-            var userResponse = await _authenticationService.CreateUserAsync(registerDto);
-            return Ok(userResponse);
+            var result = await _authenticationService.CreateUserAsync(registerDto);
+
+            if (!result)
+            {
+                return BadRequest("User already exists");
+            }
+
+            return Ok(result);
         }
     }
 }
