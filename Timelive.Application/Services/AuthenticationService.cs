@@ -91,7 +91,7 @@ public class AuthenticationService : IAuthenticationService
     private string GenerateJwtToken(int userId, string email, string role)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_jwt.Secret ?? throw new ArgumentNullException("No JWT key found in configuration."));
+        var key = Encoding.UTF8.GetBytes(_jwt.Secret ?? throw new ArgumentNullException("No JWT key found in configuration."));
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity([
