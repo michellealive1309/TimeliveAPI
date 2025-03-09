@@ -26,7 +26,7 @@ public class AuthenticationService : IAuthenticationService
         _jwt = jwtOptions.Value;
     }
 
-    public async Task<UserResponseDto> CreateUserAsync(RegisterDto registerDto)
+    public async Task<bool> CreateUserAsync(RegisterDto registerDto)
     {
         User newUser = new()
         {
@@ -36,17 +36,15 @@ public class AuthenticationService : IAuthenticationService
             Role = "user"
         };
 
+        if (await _userRepository.GetUserByEmailAsync(newUser.Email) != null)
+        {
+            return false;
+        }
+
         await _userRepository.AddAsync(newUser);
         await _userRepository.SaveChangesAsync();
 
-        return new UserResponseDto {
-            Id = newUser.Id,
-            Email = newUser.Email,
-            Username = newUser.Username,
-            Role = newUser.Role,
-            CreatedAt = newUser.CreatedAt,
-            UpdatedAt = newUser.UpdatedAt
-        };
+        return true;
     }
 
     public async Task<string> LoginAsync(LoginDto loginDto)
