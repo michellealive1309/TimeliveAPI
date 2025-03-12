@@ -1,6 +1,4 @@
-using System;
-
-namespace Timelive.Infrastructure.Providers;
+namespace Timelive.Infrastructure.Interfaces;
 
 public interface IUserProvider
 {
