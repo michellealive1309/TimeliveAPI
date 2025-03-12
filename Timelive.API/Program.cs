@@ -31,6 +31,12 @@ builder.Services.AddProvider();
 builder.Services.AddRepositories();
 builder.Services.AddServices();
 
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = "Timelive_";
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
