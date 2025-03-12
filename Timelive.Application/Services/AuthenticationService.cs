@@ -8,6 +8,7 @@ using Timelive.Application.DTOs.Authentication;
 using Timelive.Application.Interfaces;
 using Timelive.Application.Settings;
 using Timelive.Domain.Entities;
+using Timelive.Domain.Enums;
 using Timelive.Domain.Interfaces;
 
 namespace Timelive.Application.Services;
@@ -33,7 +34,7 @@ public class AuthenticationService : IAuthenticationService
             Email = registerDto.Email,
             Username = registerDto.Username,
             Password = HashPassword(registerDto.Password),
-            Role = "user"
+            Role = UserRole.User
         };
 
         if (await _userRepository.GetUserByEmailAsync(newUser.Email) != null)
@@ -59,7 +60,7 @@ public class AuthenticationService : IAuthenticationService
         _userRepository.Update(user);
         await _userRepository.SaveChangesAsync();
 
-        return GenerateJwtToken(user.Id, user.Email!, user.Role!);
+        return GenerateJwtToken(user.Id, user.Email!, user.Role.ToString());
     }
 
     public async Task<string> UpdateRefreshTokenAsync(string email)
