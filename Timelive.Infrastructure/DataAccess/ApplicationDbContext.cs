@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Timelive.Domain.Entities;
 using Timelive.Infrastructure.DataAccess.EntityConfigurations;
-using Timelive.Infrastructure.Providers;
+using Timelive.Infrastructure.Interfaces;
 
 namespace Timelive.Infrastructure.DataAccess;
 
@@ -17,10 +17,26 @@ public class ApplicationDbContext : DbContext
         _userProvider = userProvider;
     }
     
+    public DbSet<Group> Groups { get; set; }
+    public DbSet<Image> Images { get; set; }
+    public DbSet<Like> Likes { get; set; }
+    public DbSet<Profile> Profiles { get; set; }
+    public DbSet<PurchasedStory> PurchasedStories { get; set; }
+    public DbSet<Subscription> Subscriptions { get; set; }
+    public DbSet<Story> Stories { get; set; }
+    public DbSet<Topic> Topics { get; set; }
     public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new GroupEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new ImageEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new LikeEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new StoryEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new SubscriptionEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new ProfileEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new PurchasedStoryEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new TopicEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
 
         base.OnModelCreating(modelBuilder);
