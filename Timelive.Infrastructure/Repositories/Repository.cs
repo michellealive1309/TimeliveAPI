@@ -45,4 +45,27 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
     {
         await _context.SaveChangesAsync();
     }
+
+    public async Task<IEnumerable<TEntity>> AddRangeAsync(IEnumerable<TEntity> entities)
+    {
+        await _dbSet.AddRangeAsync(entities);
+        return entities;
+    }
+
+    public async Task<bool> IsExistAsync(int id)
+    {
+        return await _dbSet.AnyAsync(e => e.Id == id);
+    }
+
+    public IQueryable<TEntity> GetAll()
+    {
+        return _dbSet.AsQueryable();
+    }
+
+    public IQueryable<TEntity> GetAllNoTracking()
+    {
+        return _dbSet
+            .AsNoTracking()
+            .AsQueryable();
+    }
 }

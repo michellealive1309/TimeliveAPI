@@ -1,4 +1,3 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using Timelive.Domain.Entities;
 using Timelive.Domain.Interfaces;
@@ -13,14 +12,6 @@ public class UserRepository : Repository<User>, IUserRepository
     public UserRepository(ApplicationDbContext context) : base(context)
     {
         _context = context;
-    }
-
-    public Task<User?> GetUserByEmailAndPasswordAsync(string email, string password)
-    {
-        return _context.Users
-            .Where(u => u.Email == email)
-            .Where(u => u.Password == password)
-            .FirstOrDefaultAsync();
     }
 
     public Task<User?> GetUserByEmailAsync(string email)
