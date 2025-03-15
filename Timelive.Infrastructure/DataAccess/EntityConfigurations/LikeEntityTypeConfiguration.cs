@@ -25,7 +25,7 @@ public class LikeEntityTypeConfiguration : IEntityTypeConfiguration<Like>
             .IsRequired();
         builder
             .HasOne(l => l.Story)
-            .WithMany()
+            .WithMany(s => s.Likes)
             .HasForeignKey(l => l.StoryId)
             .IsRequired();
     }

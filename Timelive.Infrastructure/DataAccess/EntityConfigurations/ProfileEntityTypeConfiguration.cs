@@ -38,8 +38,7 @@ public class ProfileEntityTypeConfiguration : IEntityTypeConfiguration<Profile>
                 j =>
                 {
                     j.HasKey(gm => new { gm.GroupId, gm.ProfileId });
-                    j.Property(gm => gm.Role)
-                        .IsRequired();
+                    j.Property(gm => gm.Role).IsRequired();
                 }
             );
         builder

@@ -51,6 +51,10 @@ public class StoryEntityTypeConfiguration : IEntityTypeConfiguration<Story>
             .WithMany()
             .HasForeignKey(s => s.ParentId)
             .IsRequired(false);
+        builder.HasMany(s => s.PurchasedStories)
+            .WithOne()
+            .HasForeignKey(s => s.StoryId)
+            .IsRequired(false);
         builder.HasOne(s => s.WriterGroup)
             .WithMany()
             .HasForeignKey(s => s.WriterGroupId)
@@ -62,6 +66,10 @@ public class StoryEntityTypeConfiguration : IEntityTypeConfiguration<Story>
         builder.HasMany(s => s.Images)
             .WithOne()
             .HasForeignKey(i => i.StoryId)
+            .IsRequired(false);
+        builder.HasMany(s => s.Likes)
+            .WithOne(l => l.Story)
+            .HasForeignKey(l => l.StoryId)
             .IsRequired(false);
     }
 }
