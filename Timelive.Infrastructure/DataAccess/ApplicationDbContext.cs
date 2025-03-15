@@ -8,6 +8,7 @@ namespace Timelive.Infrastructure.DataAccess;
 public class ApplicationDbContext : DbContext
 {
     private readonly IUserProvider _userProvider;
+    private int CurrentUserId => _userProvider.GetUserId();
 
     public ApplicationDbContext(
         DbContextOptions<ApplicationDbContext> options,
@@ -18,6 +19,7 @@ public class ApplicationDbContext : DbContext
     }
     
     public DbSet<Group> Groups { get; set; }
+    public DbSet<GroupMember> GroupMembers { get; set; }
     public DbSet<Image> Images { get; set; }
     public DbSet<Like> Likes { get; set; }
     public DbSet<Profile> Profiles { get; set; }
@@ -38,6 +40,8 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new PurchasedStoryEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new TopicEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
+
+        modelBuilder.Entity<PurchasedStory>().HasQueryFilter(ps => ps.UserId == CurrentUserId);
 
         base.OnModelCreating(modelBuilder);
     }
